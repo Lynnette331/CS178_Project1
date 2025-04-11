@@ -1,0 +1,5 @@
+echo "creds.py" >> .gitignore
+creds.py
+venv/
+*.pyc
+__pycache__/
