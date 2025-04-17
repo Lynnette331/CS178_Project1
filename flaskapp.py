@@ -22,8 +22,9 @@ def index():
             database=creds.db
         )
         cursor = connection.cursor()
+        #query to fetch movies with genres
         genres_query = """
-         SELECT movie.movie_id AS id, movie.title, movie.budget, genre.genre_name AS genre_name
+        SELECT movie.movie_id AS id, movie.title, movie.budget, genre.genre_name AS genre_name
         FROM movie
         JOIN movie_genres ON movie.movie_id = movie_genres.movie_id
         JOIN genre ON movie_genres.genre_id = genre.genre_id
@@ -31,13 +32,14 @@ def index():
         """
         cursor.execute(genres_query)
         genres_results = cursor.fetchall()
-        return render_template('index.html', results=genres_results)  # Render the template
+        return render_template('index.html', results=genres_results)  # Rendering the template
     except Exception as e:
         return f"Error: {e}"
     finally:
         if connection:
             connection.close()
 
+#route to fetch all movies
 @app.route('/add_movie', methods=['POST'])
 def add_movie():
     connection = None
@@ -63,6 +65,7 @@ def add_movie():
         if connection:
             connection.close()
 
+#route to update movie details
 @app.route('/update_movie', methods=['POST'])
 def update_movie():
     connection = None
@@ -88,6 +91,7 @@ def update_movie():
         if connection:
             connection.close()
 
+#route to delete a movie
 @app.route('/delete_movie', methods=['POST'])
 def delete_movie():
     connection = None
@@ -111,22 +115,8 @@ def delete_movie():
         if connection:
             connection.close()
 
-@app.route('/add_review', methods=['POST'])
-def add_review():
-    try:
-        table = dynamodb.Table('Reviews')  # Replace 'Reviews' with your DynamoDB table name
-        review_data = {
-            'review_id': request.form['review_id'],
-            'movie_id': request.form['movie_id'],
-            'review_text': request.form['review_text'],
-            'rating': request.form['rating']
-        }
-        table.put_item(Item=review_data)
-        return "Review added successfully!"
-    except Exception as e:
-        return f"Error: {e}"
     
-    
+#route to fetch the table of movies with genres
 @app.route('/movies_with_genres')
 def movies_with_genres():
     connection = None
