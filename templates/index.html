@@ -3,23 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flask RDS Example</title>
+    <title>Home Page</title>
 </head>
 <body>
-    <h1>Movies</h1>
+    <h1>Welcome to the Movies Management Website!</h1>
+    <p>Manage your movies using the options below.</p>
+
+    <h2>Movies with Genres</h2>
     <table border="1">
         <tr>
+            <th>Movie ID</th>
             <th>Title</th>
             <th>Budget</th>
-            <th>Movie ID</th>
+            <th>Genre</th>
         </tr>
         {% for row in results %}
         <tr>
             <td>{{ row[0] }}</td>
             <td>{{ row[1] }}</td>
             <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
         </tr>
         {% endfor %}
     </table>
+
+    <h2>Add a New Movie</h2>
+    <form action="/add_movie" method="POST">
+        <label for="title">Title:</label>
+        <input type="text" name="title" required><br>
+        <label for="budget">Budget:</label>
+        <input type="number" name="budget" required><br>
+        <label for="movie_id">Movie ID:</label>
+        <input type="number" name="movie_id" required><br>
+        <button type="submit" style="background-color : blue; color: white;">Add Movie</button>
+    </form>
+
+    <h2>Update a Movie</h2>
+<form action="/update_movie" method="POST">
+    <label for="movie_id">Movie ID:</label>
+    <input type="number" name="movie_id" required><br>
+    <label for="title">New Title:</label>
+    <input type="text" name="title"><br>
+    <label for="budget">New Budget:</label>
+    <input type="number" name="budget"><br>
+    <button type="submit" style="background-color : red; color: white;">Update Movie</button>
+</form>
+
+<h2>Delete a Movie</h2>
+<form action="/delete_movie" method="POST">
+    <label for="movie_id">Movie ID:</label>
+    <input type="number" name="movie_id" required><br>
+    <button type="submit" style="background-color : blue; color: white;">Delete Movie</button>
+
+</form>
+<h1>Movies</h1>
+<table border="1">
+    <tr>
+        <th>Movie ID</th>
+        <th>Title</th>
+        <th>Movie Budget</th>
+    </tr>
+    {% for row in results %}
+    <tr>
+        <td>{{ row[0] }}</td>
+        <td>{{ row[1] }}</td>
+        <td>{{ row[2] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
 </body>
 </html>
